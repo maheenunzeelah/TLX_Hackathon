@@ -1,0 +1,9 @@
+"Alternate Course No.","Description"
+"BOP-SA-01.01-AC01","‘Back’ button of browser will not function if clicked by user. Only back button 
+given on customer journey pages will take back to previous page."
+"BOP-SA-01.01-AC02","Navigation Flow on Back Button
+The application will navigate the user to ‘CNIC Input’ page on clicking 
+the ‘Back’ button on the ‘Set Passcode’.
+The application will not do any action on clicking back button on 
+‘Product offering’ and ‘CNIC Input’ page."
+"BOP-SA-01.01-AC03","The user terminates the interface."
