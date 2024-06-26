@@ -66,7 +66,9 @@ async def generateApis(upload_file: UploadFile = File(...),userStory: UploadFile
         embb=generateEmbeddings(user_story)
         print(embb)
        
-        user_query="Given the detected elements, given image and user story, extract possible apis with their methods, sample endpints, response and request bodies. The answer should be properly structured and in json"
+        user_query="""Given the detected elements, given image and user story, extract possible apis with their methods, 
+        sample endpints, response and request bodies. The answer should be properly structured and in json
+        """
         prompt=f"Context: {embb} \nUser: {user_query}\nAssistant:"
        
         contents = await upload_file.read()
@@ -105,7 +107,7 @@ async def generatePrompt(prompt:str=Form(...)):
 @app.post('/code')    
 async def generateCode(upload_file: UploadFile = File(...),userPrompt:str=Form(...)):
     print(userPrompt)
-    prompt="Generate HTML and inline CSS code for a signup page in English. Include fields for username, email, password, and a signup button. Ensure the page design is clean and user-friendly, with appropriate styling for input fields and a responsive layout."
+    prompt=userPrompt
     if userPrompt =='no':
         prompt="Given the detected elements and given image, write it's html and inline css code."
     
