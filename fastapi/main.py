@@ -105,7 +105,7 @@ async def generatePrompt(prompt:str=Form(...)):
 @app.post('/code')    
 async def generateCode(upload_file: UploadFile = File(...),userPrompt:str=Form(...)):
     print(userPrompt)
-    prompt=userPrompt
+    prompt="Generate HTML and inline CSS code for a signup page in English. Include fields for username, email, password, and a signup button. Ensure the page design is clean and user-friendly, with appropriate styling for input fields and a responsive layout."
     if userPrompt =='no':
         prompt="Given the detected elements and given image, write it's html and inline css code."
     
