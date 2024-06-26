@@ -1,15 +1,19 @@
 import React,{useState} from 'react'
-import {Form, Button ,Container,Spinner} from 'react-bootstrap';
+import {Form, Button ,Card,Container,Spinner} from 'react-bootstrap';
 import {HtmlStringToImage} from './HTMLtoImg'
 import { useNavigate } from "react-router-dom";
+import { ImageManipulation } from './ImageManipulation';
 export const FileUploader=()=>{
     let navigate = useNavigate();
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [prompt,setPrompt]=useState("");
     const [inProgress,setInProgress]=useState(false)
- 
-    
+    const [detectedElements,setDetectedElements]=useState(null)
+    const [annotatedImage,setAnnotatedImage]=useState("")
+    const [image,setImage]=useState("")
+   const [imageUploaded,setImageUploaded]=useState(false)
+    const [samplePrompts,setSamplePrompts]=useState("")
     const handlePromptChange=(event)=>{
      event.preventDefault()
      setPrompt(event.target.value)
@@ -51,7 +55,11 @@ export const FileUploader=()=>{
         if(res.ok){
          res.json().then(dt=>{
             console.log(dt,"dtt")
-            navigate('./showImage',{state:{image:file,annotated_img:dt.annotated_img,detectedElements:dt.detected_elements}})
+            setImageUploaded(true)
+            setDetectedElements(dt.detected_elements)
+            setImage(file)
+            setAnnotatedImage(dt.annotated_img)
+            // navigate('./showImage',{state:{image:file,annotated_img:dt.annotated_img,detectedElements:dt.detected_elements}})
         //    setHtmlCode(extractHtmlString(dt.code))
          })
          setInProgress(false)
@@ -64,26 +72,36 @@ export const FileUploader=()=>{
 
       }
     };
-  
+    
     return (
-        <Container >
+        <div style={{marginBlock:"90px", marginInline:"90px"}} >
+          <h2 className='text-center'>Smart API Extractor and Personlized UI Generator</h2>
      {inProgress?<Spinner/>:
-       
+       <div className='row justify-content-between'>
+        <div className='col-md-4'>
         <Form  onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Prompt</Form.Label>
           <Form.Control type="text" placeholder="Enter prompt" onChange={handlePromptChange}/>
-        </Form.Group>
+        </Form.Group> */}
         <Form.Group controlId="formFile" className="mb-3">
         <Form.Label>Upload UI image</Form.Label>
         <Form.Control type="file" onChange={handleFileChange} />
       </Form.Group>
-      {preview && <div><img src={preview} alt="Preview" style={{ width: '400px', height: '300px' }} /></div> }
-      <Button className="mt-3" variant="primary" type="submit">Upload</Button>{' '}
-      </Form>
-}
+      {preview && <div><img src={preview} alt="Preview" style={{ width: '538px', height: '800px' }} /></div> }
+      <Button className="mt-3" variant="primary" type="submit">Analyze Image</Button>{' '}
 
-      </Container>
+      </Form>
+   
+      </div>
+      <div className='col-md-8 mt-3'>
+{imageUploaded && <ImageManipulation setSamplePrompts={setSamplePrompts} detectedElements={detectedElements} annotatedImage={annotatedImage} image={image} />}
+
+   
+      </div>
+      </div>
+}
+      </div>
     //   <div>
     //     <form onSubmit={handleSubmit}>
     //     <Form.Label>Enter Prompt</Form.Label>

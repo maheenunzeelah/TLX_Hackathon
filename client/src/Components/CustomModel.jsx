@@ -1,13 +1,15 @@
 import {Button, Card, Container, Modal,Spinner,Form} from 'react-bootstrap';
-
+import './CustomModel.css'
 
 export const CustomModal=({title,body,buttons,show,inProgress,htmlString, handleClose,handlePreview,handleFileSubmit})=>{
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal   
+       
+        show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{margin:"0 auto"}}> {
+        <Modal.Body style={{margin:"0 auto", width:"100%"}}> {
         body
 
     }</Modal.Body>

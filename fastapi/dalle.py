@@ -17,7 +17,7 @@ def encode_image_to_base64(image_path ,size=(256, 256)):
         img.save(buffered, format="PNG")
         img_bytes = buffered.getvalue()
     return base64.b64encode(img_bytes).decode('utf-8')
-def generate_image():
+def generate_image(prompt):
     try:
 
         #Get Configuration settings
@@ -39,39 +39,40 @@ def generate_image():
 
         #Initialize messages array
         messages_array = [{"role":"system","content":system_message}]
-        base64_image = encode_image_to_base64('1.png')
+        # base64_image = encode_image_to_base64('1.png')
   
 
         
        
 
         print("\n Sending request to Azure OpenAI endpoint..\n\n")
-        width = 1440
-        height = 813
-        mask = Image.new("RGBA", (width, height), (0, 0, 0, 1))  # create an opaque image mask
+        # width = 1440
+        # height = 813
+        # mask = Image.new("RGBA", (width, height), (0, 0, 0, 1))  # create an opaque image mask
         
-        # set the bottom half to be transparent
-        for x in range(width):
-            for y in range(height // 2, height):  # only loop over the bottom half of the mask
-                # set alpha (A) to zero to turn pixel transparent
-                alpha = 0
-                mask.putpixel((x, y), (0, 0, 0, alpha))
+        # # set the bottom half to be transparent
+        # for x in range(width):
+        #     for y in range(height // 2, height):  # only loop over the bottom half of the mask
+        #         # set alpha (A) to zero to turn pixel transparent
+        #         alpha = 0
+        #         mask.putpixel((x, y), (0, 0, 0, alpha))
         
-        # save the mask
-        mask_name = "bottom_half_mask.png"
-        mask_filepath = os.path.join("", mask_name)
-        mask.save(mask_filepath)
-        # edit_response = client.images.generate(
-        #     model=azure_oai_deployment,
-        # # image=f"data:image/png;base64,{base64_image}",
-        # # image=open("1.png", "rb"),
-        # # mask=open(mask_filepath, "rb"),  # from right above
+        # # save the mask
+        # mask_name = "bottom_half_mask.png"
+        # mask_filepath = os.path.join("", mask_name)
+        # mask.save(mask_filepath)
+        response = client.images.generate(
+            model=azure_oai_deployment,
+        # image=f"data:image/png;base64,{base64_image}",
+        # image=open("1.png", "rb"),
+        # mask=open(mask_filepath, "rb"),  # from right above
        
-        # prompt="""Generate image similar to provided one and replace login with sign in""" ,  # from the generation section
-        # n=1,
-        # size="1024x1024",
-        # response_format="url",
-        # )
+        prompt= prompt,  # from the generation section
+        n=1,
+        size="1024x1024",
+        style="natural",
+        response_format="b64_json",
+        )
 
             # image_url_list = []
             # image_data_list = []
@@ -82,9 +83,9 @@ def generate_image():
             # #Add generated text to message-array
             # messages_array.append({"role":"system","content":image_url_list})
 
-        # print( edit_response)
-
+        print(response)
+        return response
     except Exception as ex:
         print(ex)
-generate_image()
+
 # sys.modules[__name__] = generate_image

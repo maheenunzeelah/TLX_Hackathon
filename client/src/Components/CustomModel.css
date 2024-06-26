@@ -1,0 +1,7 @@
+.modal-dialog{
+    max-width: 80% !important;
+}
+.modal-content{
+   background-color: azure !important;
+    color:black
+}

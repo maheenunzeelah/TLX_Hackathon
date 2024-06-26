@@ -6,7 +6,7 @@ import {ImageManipulation} from "./Screens/ImageManipulation"
 import {Routes,Route} from "react-router-dom";
 function App() {
   return (
-    <div>
+    <div >
        <Routes>
             <Route exact path="/" element={<FileUploader/>}/>
             <Route path='/showImage' element={<ImageManipulation />}/>
